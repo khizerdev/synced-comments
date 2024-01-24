@@ -1,7 +1,13 @@
 import { useState } from 'react';
+import { io } from 'socket.io-client';
 import './index.css';
+const socket = io.connect('http://localhost:3001');
 
 function App() {
+  const sendMessage = () => {
+    console.log('Hello');
+  };
+
   return (
     <section className="flex max-w-[75%] justify-center mx-auto mt-5">
       <div className="flex justify-center gap-10">
@@ -27,7 +33,7 @@ function App() {
         </div>
         <div className="p-6 rounded-md shadow dark:shadow-gray-800 mt-8 w-[50%]">
           <h5 className="text-lg font-semibold">Leave A Comment:</h5>
-          <form className="mt-8">
+          <div className="mt-8">
             <div className="grid grid-cols-1">
               <div className="mb-5">
                 <div className="text-start">
@@ -64,11 +70,12 @@ function App() {
               type="submit"
               id="submit"
               name="send"
+              onClick={sendMessage}
               className="py-2 px-5 inline-block font-semibold tracking-wide align-middle duration-500 text-base text-center bg-orange-500 text-white rounded-md w-full"
             >
               Send Message
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </section>
