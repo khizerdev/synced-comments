@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import './index.css';
 const socket = io.connect('http://localhost:3001');
 
 function App() {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    socket.on('receive_message', (data) => {
+      setMessage(data.message);
+    });
+  }, [socket]);
+
   const sendMessage = () => {
-    console.log('Hello');
+    socket.emit('send_message', {
+      message: 'This is message',
+    });
   };
 
   return (
@@ -24,10 +34,7 @@ function App() {
               </div>
             </div>
             <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-md shadow dark:shadow-gray-800 mt-6">
-              <p className="text-slate-400 italic">
-                " There are many variations of passages of Lorem Ipsum available, but the majority
-                have suffered alteration in some form, by injected humour "
-              </p>
+              <p className="text-slate-400 italic">{message}</p>
             </div>
           </div>
         </div>
